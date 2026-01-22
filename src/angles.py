@@ -1,6 +1,8 @@
 
 import numpy as np
 import math
+from src.keypoints import get_knee_points
+
 
 def compute_angle(a, b, c):
     """
@@ -19,3 +21,14 @@ def compute_angle(a, b, c):
 
     angle = math.degrees(math.acos(cosine_angle))
     return angle
+
+from collections import deque
+
+class AngleSmoother:
+    def __init__(self, window_size=5):
+        self.window = deque(maxlen=window_size)
+
+    def smooth(self, angle):
+        self.window.append(angle)
+        return sum(self.window) / len(self.window)
+
