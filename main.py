@@ -15,7 +15,8 @@ smoother = AngleSmoother(window_size=7)
 
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
-
+min_angle=0
+max_angle=180
 # -----------------------
 # Main loop
 # -----------------------
@@ -50,6 +51,9 @@ while cap.isOpened():
         # Compute & smooth knee angle
         raw_angle = compute_angle(hip, knee, ankle)
         angle = smoother.smooth(raw_angle)
+        min_angle = min(min_angle, angle)
+        max_angle = max(max_angle, angle)
+
 
         # Draw knee angle
         cv2.putText(
@@ -61,6 +65,26 @@ while cap.isOpened():
             (0, 255, 0),
             2
         )
+        cv2.putText(
+            frame,
+            f"Min: {int(min_angle)} deg",
+            (30, 40),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            0.6,
+            (255, 255, 0),
+            2
+        )
+
+        cv2.putText(
+            frame,
+            f"Max: {int(max_angle)} deg",
+            (30, 70),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            0.6,
+            (255, 255, 0),
+            2
+        )
+
 
         # Draw joint points (debug clarity)
         cv2.circle(frame, hip, 5, (0, 255, 0), -1)
