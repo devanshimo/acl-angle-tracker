@@ -5,7 +5,7 @@ import numpy as np
 from src.pose import PoseEstimator
 from src.keypoints import get_knee_points
 from src.angles import compute_angle, AngleSmoother
-from src.score import ScoreManager   # 👈 NEW (clean scoring module)
+from src.score import ScoreManager   
 
 # -----------------------
 # Setup
